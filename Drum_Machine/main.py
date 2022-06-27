@@ -19,13 +19,21 @@ label_font = pygame.font.Font('freesansbold.ttf', 32)
 fps = 60 # frames per second
 timer = pygame.time.Clock() # for a music application, this is clearly critical
 
-# this is the main game loop
+def draw_grid():
+    left_box = pygame.draw.rect(screen, gray, [0, 0, 0, HEIGHT]) # starting coordinates, width, and height
 
+# the main game loop
 run = True
 while run:
     timer.tick(fps) # this means we execute the code 60 times per second
     screen.fill(black) # the background
+    draw_grid()
+
 
     # "event handling":
     for event in pygame.event.get():
-        pass
+        if event.type == pygame.QUIT: # this obviously shuts down the app.
+            run = False
+
+    pygame.display.flip()
+pygame.quit() # this is to catch it if everything else doesn't work (it seems)
