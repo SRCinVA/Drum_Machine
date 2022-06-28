@@ -20,7 +20,13 @@ fps = 60 # frames per second
 timer = pygame.time.Clock() # for a music application, this is clearly critical
 
 def draw_grid():
-    left_box = pygame.draw.rect(screen, gray, [0, 0, 0, HEIGHT]) # starting coordinates, width, and height
+    left_box = pygame.draw.rect(screen, gray, [0, 0, 200, HEIGHT - 200], 5)   # x and y starting coordinates, width, and height
+                                                                        # "5" clarifies how wide we want the edges to be.
+    bottom_box = pygame.draw.rect(screen, gray, [0, HEIGHT - 200, WIDTH, 200], 5 )
+                                                                        # it will start at 200 above the bottom of the screen
+                                                                        # pygame grid stops at top left
+    boxes = []  # this might be for individual tracks
+    colors = [gray, white, gray]
 
 # the main game loop
 run = True
