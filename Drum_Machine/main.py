@@ -27,6 +27,17 @@ def draw_grid():
                                                                         # pygame grid stops at top left
     boxes = []  # this might be for individual tracks
     colors = [gray, white, gray]
+    hi_hat_text = label_font.render('Hi Hat', True, white, )
+                # second term above is an anti-alias (smooth borders for lines)
+    screen.blit(hi_hat_text, (30, 30))  # draws it on the screen, with the coordinates.
+    snare_text = label_font.render('Snare', True, white, )
+    screen.blit(snare_text, (30, 130))  # draws it on the screen, with the coordinates.
+    bass_drum_text = label_font.render('Bass Drum', True, white, )
+    screen.blit(bass_drum_text, (30, 230))  # draws it on the screen, with the coordinates.
+    crash_cymbal_text = label_font.render('Crash Cymbal', True, white, )
+    screen.blit(crash_cymbal_text, (30, 330))  # draws it on the screen, with the coordinates.
+
+
 
 # the main game loop
 run = True
