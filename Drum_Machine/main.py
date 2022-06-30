@@ -20,7 +20,7 @@ fps = 60 # frames per second
 timer = pygame.time.Clock() # for a music application, this is clearly critical
 
 def draw_grid():
-    left_box = pygame.draw.rect(screen, gray, [0, 0, 200, HEIGHT - 200], 5)   # x and y starting coordinates, width, and height
+    left_box = pygame.draw.rect(screen, gray, [0, 0, 300, HEIGHT - 200], 5)   # x and y starting coordinates, width, and height
                                                                         # "5" clarifies how wide we want the edges to be.
     bottom_box = pygame.draw.rect(screen, gray, [0, HEIGHT - 200, WIDTH, 200], 5 )
                                                                         # it will start at 200 above the bottom of the screen
@@ -30,15 +30,29 @@ def draw_grid():
     hi_hat_text = label_font.render('Hi Hat', True, white, )
                 # second term above is an anti-alias (smooth borders for lines)
     screen.blit(hi_hat_text, (30, 30))  # draws it on the screen, with the coordinates.
+    
     snare_text = label_font.render('Snare', True, white, )
-    screen.blit(snare_text, (30, 130))  # draws it on the screen, with the coordinates.
+    screen.blit(snare_text, (30, 130))
+    
     bass_drum_text = label_font.render('Bass Drum', True, white, )
-    screen.blit(bass_drum_text, (30, 230))  # draws it on the screen, with the coordinates.
+    screen.blit(bass_drum_text, (30, 230))
+    
     crash_cymbal_text = label_font.render('Crash Cymbal', True, white, )
-    screen.blit(crash_cymbal_text, (30, 330))  # draws it on the screen, with the coordinates.
+    screen.blit(crash_cymbal_text, (30, 330))
 
+    clap_text = label_font.render('Clap', True, white, )
+    screen.blit(clap_text, (30, 430))
 
+    floor_tom_text = label_font.render('Floor Tom', True, white, )
+    screen.blit(floor_tom_text, (30, 530))
 
+    # to draw lines between items:
+    for i in range(6): # remember that you just need the 'stop' here
+        pygame.draw.line(screen, gray, (0, (i * 100) + 100), (300,(i * 100) + 100), 5)     # basically, each line would build 100 way from the previous
+                                                                # because there is a zero index, you need to gvie it a "boost" of 100 from the starting position
+                                                                # (200) is the width of each line
+                                                                # for the overall width of the bar is 250
+                                                                # the width of the line is 5
 # the main game loop
 run = True
 while run:
