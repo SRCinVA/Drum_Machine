@@ -23,7 +23,7 @@ instruments = 6  # we'll use this to check how many rows there are.
 
 
 def draw_grid():
-    left_box = pygame.draw.rect(screen, gray, [0, 0, 300, HEIGHT - 200], 5)   # x and y starting coordinates, width, and height
+    left_box = pygame.draw.rect(screen, gray, [0, 0, 210, HEIGHT - 200], 5)   # x and y starting coordinates, width, and height
                                                                         # "5" clarifies how wide we want the edges to be.
     bottom_box = pygame.draw.rect(screen, gray, [0, HEIGHT - 200, WIDTH, 200], 3)
                                                                         # it will start at 200 above the bottom of the screen
@@ -40,8 +40,8 @@ def draw_grid():
     bass_drum_text = label_font.render('Bass Drum', True, white, )
     screen.blit(bass_drum_text, (30, 230))
     
-    crash_cymbal_text = label_font.render('Crash Cymbal', True, white, )
-    screen.blit(crash_cymbal_text, (30, 330))
+    crash_text = label_font.render('Crash', True, white, )
+    screen.blit(crash_text, (30, 330))
 
     clap_text = label_font.render('Clap', True, white, )
     screen.blit(clap_text, (30, 430))
@@ -51,7 +51,7 @@ def draw_grid():
 
     # to draw lines between items:
     for i in range(instruments): # remember that you just need the 'stop' here
-        pygame.draw.line(screen, gray, (0, (i * 100) + 100), (299,(i * 100) + 100), 5)     # basically, each line would build 100 way from the previous
+        pygame.draw.line(screen, gray, (0, (i * 100) + 100), (250,(i * 100) + 100), 5)     # basically, each line would build 100 way from the previous
                                                                 # because there is a zero index, you need to gvie it a "boost" of 100 from the starting position
                                                                 # (200) is the width of each line
                                                                 # for the overall width of the bar is 250
@@ -59,9 +59,10 @@ def draw_grid():
 
     for i in range(beats):
         for j in range (instruments):  # when fully expressed, this will give us our complete grid.
-            rect = pygame.draw.rect(screen, gray, [i * (WIDTH - 200)// beats])
-                                                    # unsure of why it's 'i' and not just instruments 
-
+            rect = pygame.draw.rect(screen, gray, [i * ((WIDTH - 200)// beats) + 205, (j * 100), ((WIDTH - 200)//beats), ((HEIGHT - 200)//instruments)], 5, 5)  # '+ 205' is its staritng point
+                                                    # it's 'i' because it's populating one column at a time and will shift over one whole step. Unclear why it's 200, though.
+                                                    # up to 205, is just the x starting position
+                                                    # still don't understand the WIDTH - 200 element.
 # the main game loop
 run = True
 while run:
