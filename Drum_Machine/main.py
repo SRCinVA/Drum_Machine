@@ -21,6 +21,7 @@ timer = pygame.time.Clock() # for a music application, this is clearly critical
 beats = 8  # this is how many note intervals we'll have extending to the right.
 instruments = 6  # we'll use this to check how many rows there are.
 boxes = []
+clicked = [[-1]]  # creating a full list of negative 1s, to record what has been clicked (what the ...)
 
 def draw_grid():
     left_box = pygame.draw.rect(screen, gray, [0, 0, 210, HEIGHT - 200], 5)   # x and y starting coordinates, width, and height
@@ -83,7 +84,12 @@ while run:
 
         if event.type == pygame.MOUSEBUTTONDOWN:  # don't understand this one.
             for i in range(len(boxes)):  # every time we update the beats, the whole thing has to be scalable and thus checkable.
-                if boxes[i][0]  # 0 referecnes the rectangle we stored in the box, where I represents the tuple.
-
+                if boxes[i][0].colliderect(event.pos):  # the '0' referecnes the rectangle we stored in the box, where I represents the tuple.
+                    coords = boxes[i][1]
+                                # we can use this Pygame function to see if the mouse collided with a rectangle (huh ...?!?)
+                                # it does this by determining where our mouse was when we clicked.
+                                # didn't understand his explanation on coords, other than it's a temporary variable that tracks if something has been clicked.
+                    clicked[coords[i]][coords[0]]
     pygame.display.flip()
+
 pygame.quit() # this is to catch it if everything else doesn't work (it seems)
