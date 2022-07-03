@@ -20,7 +20,7 @@ fps = 60 # frames per second
 timer = pygame.time.Clock() # for a music application, this is clearly critical
 beats = 8  # this is how many note intervals we'll have extending to the right.
 instruments = 6  # we'll use this to check how many rows there are.
-
+boxes = []
 
 def draw_grid():
     left_box = pygame.draw.rect(screen, gray, [0, 0, 210, HEIGHT - 200], 5)   # x and y starting coordinates, width, and height
@@ -63,17 +63,27 @@ def draw_grid():
                                                     # it's 'i' because it's populating one column at a time and will shift over one whole step. Unclear why it's 200, though.
                                                     # up to 205, is just the x starting position
                                                     # still don't understand the WIDTH - 200 element.
+            boxes.append((rect, (i, j)))  # we're getting the coordinates but then also need to return the entire box for collision detection elsewhere.
+
+    return boxes # ... here's where we actually make that return (mentioned above).
+
+
+
 # the main game loop
 run = True
 while run:
     timer.tick(fps) # this means we execute the code 60 times per second
     screen.fill(black) # the background
-    draw_grid()
+    boxes = draw_grid()  # this is how we make 'boxes' available.
 
     # "event handling":
     for event in pygame.event.get():
         if event.type == pygame.QUIT: # this obviously shuts down the app.
             run = False
+
+        if event.type == pygame.MOUSEBUTTONDOWN:  # don't understand this one.
+            for i in range(len(boxes)):  # every time we update the beats, the whole thing has to be scalable and thus checkable.
+                if boxes[i][0]  # 0 referecnes the rectangle we stored in the box, where I represents the tuple.
 
     pygame.display.flip()
 pygame.quit() # this is to catch it if everything else doesn't work (it seems)
