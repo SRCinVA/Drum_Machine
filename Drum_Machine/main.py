@@ -11,6 +11,7 @@ HEIGHT = 800
 black = (0, 0, 0)
 white = (255, 255, 255)
 gray = (128, 128, 128)
+green = (0, 255, 0)
 
 screen = pygame.display.set_mode([WIDTH, HEIGHT])
 pygame.display.set_caption('Beat Maker')
@@ -21,8 +22,9 @@ timer = pygame.time.Clock() # for a music application, this is clearly critical
 beats = 8  # this is how many note intervals we'll have extending to the right.
 instruments = 6  # we'll use this to check how many rows there are.
 boxes = []
-clicked = [[-1]]  # creating a full list of negative 1s, to record what has been clicked (what the ...)
-
+clicked = [[[-1] for _ in range(beats)][-1] for _ in range(instruments)]  # iterating over the beats to create a full list of negative 1s, to record what has already been clicked
+                                        # in this case, you don't need to name a variable upfront (what the ...)
+                                        # hard to follow his reasoning on this set of steps ... 
 def draw_grid():
     left_box = pygame.draw.rect(screen, gray, [0, 0, 210, HEIGHT - 200], 5)   # x and y starting coordinates, width, and height
                                                                         # "5" clarifies how wide we want the edges to be.
@@ -60,6 +62,11 @@ def draw_grid():
 
     for i in range(beats):
         for j in range (instruments):  # when fully expressed, this will give us our complete grid.
+            if clicks[j][i] == -1:
+                color = gray
+            else:
+                color = green  # meaning, it can be done.
+
             rect = pygame.draw.rect(screen, gray, [i * ((WIDTH - 200)// beats) + 205, (j * 100), ((WIDTH - 200)//beats), ((HEIGHT - 200)//instruments)], 5, 5)  # '+ 205' is its staritng point
                                                     # it's 'i' because it's populating one column at a time and will shift over one whole step. Unclear why it's 200, though.
                                                     # up to 205, is just the x starting position
@@ -75,7 +82,7 @@ run = True
 while run:
     timer.tick(fps) # this means we execute the code 60 times per second
     screen.fill(black) # the background
-    boxes = draw_grid()  # this is how we make 'boxes' available.
+    boxes = draw_grid(clicked)  # this is how we make 'boxes' available. Passing in 'clicked' helps us see what has been done before.
 
     # "event handling":
     for event in pygame.event.get():
@@ -89,7 +96,10 @@ while run:
                                 # we can use this Pygame function to see if the mouse collided with a rectangle (huh ...?!?)
                                 # it does this by determining where our mouse was when we clicked.
                                 # didn't understand his explanation on coords, other than it's a temporary variable that tracks if something has been clicked.
-                    clicked[coords[i]][coords[0]]
+                    clicked[coords[i]][coords[0]] *= -1
+                    # when clicked, it will multiply the existing -1 by itself, resulting in a positive 1.
+                    # we can use that resulting list to draw the active cells on the screen.
+
     pygame.display.flip()
 
 pygame.quit() # this is to catch it if everything else doesn't work (it seems)
