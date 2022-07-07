@@ -12,6 +12,7 @@ black = (0, 0, 0)
 white = (255, 255, 255)
 gray = (128, 128, 128)
 green = (0, 255, 0)
+gold = (212, 175, 55)
 
 screen = pygame.display.set_mode([WIDTH, HEIGHT])
 pygame.display.set_caption('Beat Maker')
@@ -65,17 +66,20 @@ def draw_grid():
             if clicks[j][i] == -1:
                 color = gray
             else:
-                color = green  # meaning, it can be done.
+                color = green  # meaning, it's active (hopefully explained later).
 
-            rect = pygame.draw.rect(screen, gray, [i * ((WIDTH - 200)// beats) + 205, (j * 100), ((WIDTH - 200)//beats), ((HEIGHT - 200)//instruments)], 5, 5)  # '+ 205' is its staritng point
+            rect = pygame.draw.rect(screen, color, [i * ((WIDTH - 200)// beats) + 205, (j * 100) + 5, ((WIDTH - 200)//beats) - 10, ((HEIGHT - 200)//instruments) - 10], 0, 5)  # '+ 205' is its staritng point
                                                     # it's 'i' because it's populating one column at a time and will shift over one whole step. Unclear why it's 200, though.
                                                     # up to 205, is just the x starting position
                                                     # still don't understand the WIDTH - 200 element.
+            pygame.draw.rect(screen, gold, [i * ((WIDTH - 200)// beats) + 200, (j * 100), ((WIDTH - 200)//beats), ((HEIGHT - 200)//instruments)], 5, 5)  # '+ 205' is its staritng point
+            
+            # it seems that this is the staritng condition for the boxes
+            pygame.draw.rect(screen, black, [i * ((WIDTH - 200)// beats) + 200, (j * 100), ((WIDTH - 200)//beats), ((HEIGHT - 200)//instruments)], 2, 5)  # '+ 205' is its staritng point
+            
             boxes.append((rect, (i, j)))  # we're getting the coordinates but then also need to return the entire box for collision detection elsewhere.
 
     return boxes # ... here's where we actually make that return (mentioned above).
-
-
 
 # the main game loop
 run = True
