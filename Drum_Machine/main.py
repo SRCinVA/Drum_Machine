@@ -23,10 +23,12 @@ timer = pygame.time.Clock() # for a music application, this is clearly critical
 beats = 8  # this is how many note intervals we'll have extending to the right.
 instruments = 6  # we'll use this to check how many rows there are.
 boxes = []
-clicked = [[[-1] for _ in range(beats)][-1] for _ in range(instruments)]  # iterating over the beats to create a full list of negative 1s, to record what has already been clicked
+clicked = [[-1 for _ in range(beats)] for _ in range(instruments)]  # iterating over the beats to create a full list of negative 1s, to record what has already been clicked
                                         # in this case, you don't need to name a variable upfront (what the ...)
                                         # hard to follow his reasoning on this set of steps ... 
-def draw_grid():
+bpm = 240
+
+def draw_grid(clicks):
     left_box = pygame.draw.rect(screen, gray, [0, 0, 210, HEIGHT - 200], 5)   # x and y starting coordinates, width, and height
                                                                         # "5" clarifies how wide we want the edges to be.
     bottom_box = pygame.draw.rect(screen, gray, [0, HEIGHT - 200, WIDTH, 200], 3)
@@ -95,14 +97,16 @@ while run:
 
         if event.type == pygame.MOUSEBUTTONDOWN:  # don't understand this one.
             for i in range(len(boxes)):  # every time we update the beats, the whole thing has to be scalable and thus checkable.
-                if boxes[i][0].colliderect(event.pos):  # the '0' referecnes the rectangle we stored in the box, where I represents the tuple.
+                if boxes[i][0].collidepoint(event.pos):  # the '0' referecnes the rectangle we stored in the box, where I represents the tuple.
                     coords = boxes[i][1]
                                 # we can use this Pygame function to see if the mouse collided with a rectangle (huh ...?!?)
                                 # it does this by determining where our mouse was when we clicked.
                                 # didn't understand his explanation on coords, other than it's a temporary variable that tracks if something has been clicked.
-                    clicked[coords[i]][coords[0]] *= -1
+                    clicked[coords[1]][coords[0]] *= -1
                     # when clicked, it will multiply the existing -1 by itself, resulting in a positive 1.
                     # we can use that resulting list to draw the active cells on the screen.
+
+    beat_length = 3600//bpm
 
     pygame.display.flip()
 
