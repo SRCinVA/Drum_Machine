@@ -27,6 +27,8 @@ clicked = [[-1 for _ in range(beats)] for _ in range(instruments)]  # iterating 
                                         # in this case, you don't need to name a variable upfront (what the ...)
                                         # hard to follow his reasoning on this set of steps ... 
 bpm = 240
+playing = True
+active_length = 0  # not understanding this one at the moment ...
 
 def draw_grid(clicks):
     left_box = pygame.draw.rect(screen, gray, [0, 0, 210, HEIGHT - 200], 5)   # x and y starting coordinates, width, and height
@@ -106,7 +108,16 @@ while run:
                     # when clicked, it will multiply the existing -1 by itself, resulting in a positive 1.
                     # we can use that resulting list to draw the active cells on the screen.
 
-    beat_length = 3600//bpm
+    beat_length = 3600//bpm  # this while loop will run 3600 per minute (!!) 3600 is actually fps * 60. 
+
+    if playing:
+        if active_length < beat_length: # how long has the beat we're currently on beeen active?
+            active_length += 1  # this helps us track what beat we are currently on. Then we add one to it for every time we're not at beat length.
+                                # did not explain the use/justification for the above if statements. 
+                                # active_length might be what it is, and beat_length might be what it should be. 
+        else:
+            active_length = 0  # setting this to 0 stops it from adding 1 (meaning, you've reached the beat that you want.)
+            
 
     pygame.display.flip()
 
