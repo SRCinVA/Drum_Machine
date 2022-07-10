@@ -29,6 +29,7 @@ clicked = [[-1 for _ in range(beats)] for _ in range(instruments)]  # iterating 
 bpm = 240
 playing = True
 active_length = 0  # not understanding this one at the moment ...
+active_beat = 1
 
 def draw_grid(clicks):
     left_box = pygame.draw.rect(screen, gray, [0, 0, 210, HEIGHT - 200], 5)   # x and y starting coordinates, width, and height
@@ -117,7 +118,14 @@ while run:
                                 # active_length might be what it is, and beat_length might be what it should be. 
         else:
             active_length = 0  # setting this to 0 stops it from adding 1 (meaning, you've reached the beat that you want.)
-            
+            # he talks about an "active cycle" or going on to the next step: what he means to say is where a beat is in a measure.
+            if active_beat < beats - 1:
+                active_beat += 1  # ... telling you to go to the next beat in the measure (seems like he's using 8/4 time)
+                                    # if active is not less than, then you shoudl turn over to the next 8/4 measure.
+                beat_changed = True  # an "on/off" variable that we will leave as a default to True.
+            else:
+                active_beat = 0 # meaning, you would start over in the measure.
+                beat_changed = True  # still True becaues you have turned over to a new measure.
 
     pygame.display.flip()
 
