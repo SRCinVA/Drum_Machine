@@ -13,6 +13,7 @@ white = (255, 255, 255)
 gray = (128, 128, 128)
 green = (0, 255, 0)
 gold = (212, 175, 55)
+blue = (0, 255, 255)
 
 screen = pygame.display.set_mode([WIDTH, HEIGHT])
 pygame.display.set_caption('Beat Maker')
@@ -30,6 +31,8 @@ bpm = 240
 playing = True
 active_length = 0  # not understanding this one at the moment ...
 active_beat = 1
+beat_changed = True # still not clear on this one. You would want this to be active as soon as the app loads.
+
 
 def draw_grid(clicks):
     left_box = pygame.draw.rect(screen, gray, [0, 0, 210, HEIGHT - 200], 5)   # x and y starting coordinates, width, and height
@@ -84,6 +87,8 @@ def draw_grid(clicks):
             
             boxes.append((rect, (i, j)))  # we're getting the coordinates but then also need to return the entire box for collision detection elsewhere.
 
+        active = pygame.draw.rect(screen, blue, [beat * (WIDTH-200)//beats])  # this will show what beat we're currenlty on (a good idea)
+
     return boxes # ... here's where we actually make that return (mentioned above).
 
 # the main game loop
@@ -91,7 +96,7 @@ run = True
 while run:
     timer.tick(fps) # this means we execute the code 60 times per second
     screen.fill(black) # the background
-    boxes = draw_grid(clicked)  # this is how we make 'boxes' available. Passing in 'clicked' helps us see what has been done before.
+    boxes = draw_grid(clicked, active_beat)  # this is how we make 'boxes' available. Passing in 'clicked' helps us see what has been done before.
 
     # "event handling":
     for event in pygame.event.get():
