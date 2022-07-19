@@ -30,11 +30,11 @@ clicked = [[-1 for _ in range(beats)] for _ in range(instruments)]  # iterating 
 bpm = 240
 playing = True
 active_length = 0  # not understanding this one at the moment ...
-active_beat = 1
+active_beat = 0
 beat_changed = True # still not clear on this one. You would want this to be active as soon as the app loads.
 
 
-def draw_grid(clicks):
+def draw_grid(clicks, beat):
     left_box = pygame.draw.rect(screen, gray, [0, 0, 210, HEIGHT - 200], 5)   # x and y starting coordinates, width, and height
                                                                         # "5" clarifies how wide we want the edges to be.
     bottom_box = pygame.draw.rect(screen, gray, [0, HEIGHT - 200, WIDTH, 200], 3)
@@ -87,7 +87,7 @@ def draw_grid(clicks):
             
             boxes.append((rect, (i, j)))  # we're getting the coordinates but then also need to return the entire box for collision detection elsewhere.
 
-        active = pygame.draw.rect(screen, blue, [beat * (WIDTH-200)//beats])  # this will show what beat we're currenlty on (a good idea)
+        active = pygame.draw.rect(screen, blue, [beat * ((WIDTH - 200)//beats) + 200, 0, ((WIDTH - 200)//beats), instruments * 100], 5, 3)  # this will show what beat we're currenlty on (a good idea)
 
     return boxes # ... here's where we actually make that return (mentioned above).
 
@@ -129,7 +129,7 @@ while run:
                                     # if active is not less than, then you shoudl turn over to the next 8/4 measure.
                 beat_changed = True  # an "on/off" variable that we will leave as a default to True.
             else:
-                active_beat = 0 # meaning, you would start over in the measure.
+                active_beat = 1 # meaning, you would start over in the measure.
                 beat_changed = True  # still True becaues you have turned over to a new measure.
 
     pygame.display.flip()
