@@ -33,6 +33,16 @@ active_length = 0  # not understanding this one at the moment ...
 active_beat = 0
 beat_changed = True # still not clear on this one. You would want this to be active as soon as the app loads.
 
+# load in sounds (will make .WAV files later)
+hi_hat = mixer.Sound('sounds\hi_hat.WAV')
+snare  = mixer.Sound('sounds\snare.WAV')
+kick   = mixer.Sound('sounds\kick.WAV')
+crash  = mixer.Sound('sounds\crash.WAV')
+clap   = mixer.Sound('sounds\clap.WAV')
+tom    = mixer.Sound('sounds\\tom.WAV')  # note that this required a double backslash
+
+
+
 
 def draw_grid(clicks, beat):
     left_box = pygame.draw.rect(screen, gray, [0, 0, 210, HEIGHT - 200], 5)   # x and y starting coordinates, width, and height
