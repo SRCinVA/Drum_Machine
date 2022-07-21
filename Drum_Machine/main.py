@@ -41,7 +41,11 @@ crash  = mixer.Sound('sounds\crash.WAV')
 clap   = mixer.Sound('sounds\clap.WAV')
 tom    = mixer.Sound('sounds\\tom.WAV')  # note that this required a double backslash
 
-
+def play_notes():
+    for i in range(len(clicked)):
+        if clicked[i][active_beat] == 1:  # you'll check where the active beat is at each row [i], but what he mans by '1' is unclear.
+            if i == 0:
+                pass
 
 
 def draw_grid(clicks, beat):
@@ -107,6 +111,12 @@ while run:
     timer.tick(fps) # this means we execute the code 60 times per second
     screen.fill(black) # the background
     boxes = draw_grid(clicked, active_beat)  # this is how we make 'boxes' available. Passing in 'clicked' helps us see what has been done before.
+
+    if beat_changed:  # this runs only when the beat changes. 
+        play_notes()
+        beat_changed == False  # as soon as it starts to play, we change it to False
+
+
 
     # "event handling":
     for event in pygame.event.get():
