@@ -11,6 +11,7 @@ HEIGHT = 800
 black = (0, 0, 0)
 white = (255, 255, 255)
 gray = (128, 128, 128)
+dark_gray = (50, 50, 50)
 green = (0, 255, 0)
 gold = (212, 175, 55)
 blue = (0, 255, 255)
@@ -18,6 +19,7 @@ blue = (0, 255, 255)
 screen = pygame.display.set_mode([WIDTH, HEIGHT])
 pygame.display.set_caption('Beat Maker')
 label_font = pygame.font.Font('freesansbold.ttf', 32)
+medium_font = pygame.font.Font('freesansbold.ttf', 24)
 
 fps = 60 # frames per second
 timer = pygame.time.Clock() # for a music application, this is clearly critical
@@ -32,6 +34,7 @@ playing = True
 active_length = 0  # not understanding this one at the moment ...
 active_beat = 0
 beat_changed = True # still not clear on this one. You would want this to be active as soon as the app loads.
+
 
 # load in sounds (will make .WAV files later)
 hi_hat = mixer.Sound('hi_hat.WAV')
@@ -127,7 +130,11 @@ while run:
     play_text = label_font.render("Play/Pause", True, white)
     screen.blit(play_text, (70, HEIGHT - 130))
     if playing:
-        play_text
+        play_text2 = medium_font.render('Playing', True, dark_gray)
+    else:
+        play_text2 = medium_font.render('Paused', True, dark_gray)
+    screen.blit(play_text, (70, HEIGHT - 100))
+
 
     if beat_changed:  # this runs only when the beat changes. 
         play_notes()
@@ -150,6 +157,8 @@ while run:
                     clicked[coords[1]][coords[0]] *= -1
                     # when clicked, it will multiply the existing -1 by itself, resulting in a positive 1.
                     # we can use that resulting list to draw the active cells on the screen.
+        if event.type == pygame.MOUSEBUTTONDOWN: 
+            pass
 
     beat_length = 3600//bpm  # this while loop will run 3600 per minute (!!) 3600 is actually fps * 60. 
 
