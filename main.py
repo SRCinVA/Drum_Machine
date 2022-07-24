@@ -40,7 +40,8 @@ kick   = mixer.Sound('kick.WAV')
 crash  = mixer.Sound('crash.WAV')
 clap   = mixer.Sound('clap.WAV')
 tom    = mixer.Sound('tom.WAV')  # note that this required a double backslash
-
+pygame.mixer.set_num_channels(instruments * 3)  # apparently, this helps with sounds that extend beyond one frame (I think)
+                                                # this increases the number of channels
 def play_notes():
     for i in range(len(clicked)):
         if clicked[i][active_beat] == 1:  # you'll check where the active beat is at each row [i], but what he mans by '1' is unclear.
@@ -56,11 +57,6 @@ def play_notes():
                 clap.play()
             if i == 5:
                 tom.play()
-
-
-
-
-
 
 
 def draw_grid(clicks, beat):
@@ -126,6 +122,12 @@ while run:
     timer.tick(fps) # this means we execute the code 60 times per second
     screen.fill(black) # the background
     boxes = draw_grid(clicked, active_beat)  # this is how we make 'boxes' available. Passing in 'clicked' helps us see what has been done before.
+    # lower menu buttons
+    play_pause = pygame.draw.rect(screen, gray, [50, HEIGHT - 150, 200, 100], 0, 5)
+    play_text = label_font.render("Play/Pause", True, white)
+    screen.blit(play_text, (70, HEIGHT - 130))
+    if playing:
+        play_text
 
     if beat_changed:  # this runs only when the beat changes. 
         play_notes()
