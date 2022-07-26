@@ -133,7 +133,7 @@ while run:
         play_text2 = medium_font.render('Playing', True, dark_gray)
     else:
         play_text2 = medium_font.render('Paused', True, dark_gray)
-    screen.blit(play_text, (70, HEIGHT - 100))
+    screen.blit(play_text2, (70, HEIGHT - 100))
 
 
     if beat_changed:  # this runs only when the beat changes. 
@@ -157,8 +157,12 @@ while run:
                     clicked[coords[1]][coords[0]] *= -1
                     # when clicked, it will multiply the existing -1 by itself, resulting in a positive 1.
                     # we can use that resulting list to draw the active cells on the screen.
-        if event.type == pygame.MOUSEBUTTONDOWN: 
-            pass
+        if event.type == pygame.MOUSEBUTTONUP: 
+            if play_pause.collidepoint(event.pos): # if you press the button and it's plyaing, you then need playing to turn False (turn off)
+                if playing: 
+                    playing = False  # turns it off
+                elif not playing:
+                    playing = True   # turns it on
 
     beat_length = 3600//bpm  # this while loop will run 3600 per minute (!!) 3600 is actually fps * 60. 
 
