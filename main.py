@@ -1,3 +1,4 @@
+from cProfile import label
 import pygame
 from pygame import mixer
 
@@ -135,6 +136,12 @@ while run:
         play_text2 = medium_font.render('Paused', True, dark_gray)
     screen.blit(play_text2, (70, HEIGHT - 100))
 
+    # bpm material to show changes
+    bpm_rect = pygame.draw.rect(screen, gray, [300, HEIGHT - 150, 200, 100], 5, 5)
+    bpm_text = medium_font.render('Beats Per Minute', True, white)
+    screen.blit(bpm_text, (308, HEIGHT - 130))
+    bpm_text2 = label_font.render(f'{bpm}', True, white)
+    screen.blit(bpm_text2, (370, HEIGHT - 100))
 
     if beat_changed:  # this runs only when the beat changes. 
         play_notes()
