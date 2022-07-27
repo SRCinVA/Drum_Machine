@@ -137,16 +137,20 @@ while run:
     screen.blit(play_text2, (70, HEIGHT - 100))
 
     # bpm material to show changes
-    bpm_rect = pygame.draw.rect(screen, gray, [300, HEIGHT - 150, 200, 100], 5, 5)
+    bpm_rect = pygame.draw.rect(screen, gray, [300, HEIGHT - 150, 218, 100], 5, 5)
     bpm_text = medium_font.render('Beats Per Minute', True, white)
     screen.blit(bpm_text, (308, HEIGHT - 130))
     bpm_text2 = label_font.render(f'{bpm}', True, white)
-    screen.blit(bpm_text2, (370, HEIGHT - 100))
+    screen.blit(bpm_text2, (375, HEIGHT - 100))
+    bpm_add_rect = pygame.draw.rect(screen, gray, [510, HEIGHT - 150, 48, 48], 0, 5)
+    bpm_sub_rect = pygame.draw.rect(screen, gray, [510, HEIGHT - 100, 48, 48], 0, 5)
+    add_text = medium_font.render("+1", True, white)
+    sub_text = medium_font.render("-1", True, white)
+
 
     if beat_changed:  # this runs only when the beat changes. 
         play_notes()
         beat_changed == False  # as soon as it starts to play, we change it to False
-
 
 
     # "event handling":
