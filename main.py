@@ -142,10 +142,14 @@ while run:
     screen.blit(bpm_text, (308, HEIGHT - 130))
     bpm_text2 = label_font.render(f'{bpm}', True, white)
     screen.blit(bpm_text2, (375, HEIGHT - 100))
-    bpm_add_rect = pygame.draw.rect(screen, gray, [510, HEIGHT - 150, 48, 48], 0, 5)
-    bpm_sub_rect = pygame.draw.rect(screen, gray, [510, HEIGHT - 100, 48, 48], 0, 5)
+    bpm_add_rect = pygame.draw.rect(screen, gray, [520, HEIGHT - 150, 48, 48], 0, 5)
+    bpm_sub_rect = pygame.draw.rect(screen, gray, [520, HEIGHT - 100, 48, 48], 0, 5)
     add_text = medium_font.render("+1", True, white)
     sub_text = medium_font.render("-1", True, white)
+    screen.blit(add_text, (530, HEIGHT - 140))
+    screen.blit(add_text, (530, HEIGHT - 90))
+
+
 
 
     if beat_changed:  # this runs only when the beat changes. 
@@ -174,6 +178,11 @@ while run:
                     playing = False  # turns it off
                 elif not playing:
                     playing = True   # turns it on
+            # to change BPM
+            elif bpm_add_rect.collidepoint(event.pos):
+                bpm += 1
+            elif bpm_sub_rect.collidepoint(event.pos):
+                bpm -= 1                
 
     beat_length = 3600//bpm  # this while loop will run 3600 per minute (!!) 3600 is actually fps * 60. 
 
