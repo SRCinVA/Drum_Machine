@@ -147,9 +147,20 @@ while run:
     add_text = medium_font.render("+1", True, white)
     sub_text = medium_font.render("-1", True, white)
     screen.blit(add_text, (530, HEIGHT - 140))
-    screen.blit(add_text, (530, HEIGHT - 90))
+    screen.blit(sub_text, (530, HEIGHT - 90))
 
-
+    # beats material
+    beats_rect = pygame.draw.rect(screen, gray, [600, HEIGHT - 150, 218, 100], 5, 5)
+    beats_text = medium_font.render('Beats in Loop', True, white)
+    screen.blit(beats_text, (628, HEIGHT - 130))
+    beats_text2 = label_font.render(f'{beats}', True, white)
+    screen.blit(beats_text2, (695, HEIGHT - 100))
+    beats_add_rect = pygame.draw.rect(screen, gray, [820, HEIGHT - 150, 48, 48], 0, 5)
+    beats_sub_rect = pygame.draw.rect(screen, gray, [820, HEIGHT - 100, 48, 48], 0, 5)
+    add_text2 = medium_font.render("+1", True, white)
+    sub_text2 = medium_font.render("-1", True, white)
+    screen.blit(add_text2, (830, HEIGHT - 140))
+    screen.blit(sub_text2, (830, HEIGHT - 90))
 
 
     if beat_changed:  # this runs only when the beat changes. 
@@ -183,6 +194,13 @@ while run:
                 bpm += 1
             elif bpm_sub_rect.collidepoint(event.pos):
                 bpm -= 1                
+            elif beats_add_rect.collidepoint(event.pos):
+                beats += 1
+                for i in range(len(clicked)):
+                    pass
+            elif beats_sub_rect.collidepoint(event.pos):
+                beats -= 1      
+
 
     beat_length = 3600//bpm  # this while loop will run 3600 per minute (!!) 3600 is actually fps * 60. 
 
@@ -199,7 +217,7 @@ while run:
                                     # if active is not less than, then you shoudl turn over to the next 8/4 measure.
                 beat_changed = True  # an "on/off" variable that we will leave as a default to True.
             else:
-                active_beat = 1 # meaning, you would start over in the measure.
+                active_beat = 0 # meaning, you would start over in the measure at the beginning.
                 beat_changed = True  # still True becaues you have turned over to a new measure.
 
     pygame.display.flip()
