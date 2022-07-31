@@ -162,6 +162,13 @@ while run:
     screen.blit(add_text2, (830, HEIGHT - 140))
     screen.blit(sub_text2, (830, HEIGHT - 90))
 
+    # instrument rectangles (to control the channels)
+    instrument_rects = []
+    for i in range(instruments):
+        rect = pygame.rect.Rect((0, i * 100), (200, 100))  # defining a rectangle but NOT putting it on the screen.
+                                                # this one only needs (1.)  x and y starting position (for 'y', it goes down 100 at a time and always stays on the left) and (2.) the button size
+        instrument_rects.append(rect)  # basically, we're sticking that new rectangle to the end of the instument_rects list
+        
 
     if beat_changed:  # this runs only when the beat changes. 
         play_notes()
@@ -202,6 +209,11 @@ while run:
                 beats -= 1      
                 for i in range(len(clicked)):
                     clicked[i].pop(-1)  # pulls off the last item on the 'clicked' list
+            # to check if any of those instrument buttons have been clicked:
+            for i in range(len(instrument_rects)): # this will check every instrument rectangle that we define
+                if instrument_rects[i].collidepoint(event.pos): # ... to check if any instrument in there was clicked
+                    active_list = []
+
 
     beat_length = 3600//bpm  # this while loop will run 3600 per minute (!!) 3600 is actually fps * 60. 
 
