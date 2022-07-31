@@ -197,10 +197,11 @@ while run:
             elif beats_add_rect.collidepoint(event.pos):
                 beats += 1
                 for i in range(len(clicked)):
-                    pass
+                    clicked[i].append(-1)   # adds another item to the end of the 'clicked' list
             elif beats_sub_rect.collidepoint(event.pos):
                 beats -= 1      
-
+                for i in range(len(clicked)):
+                    clicked[i].pop(-1)  # pulls off the last item on the 'clicked' list
 
     beat_length = 3600//bpm  # this while loop will run 3600 per minute (!!) 3600 is actually fps * 60. 
 
