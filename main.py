@@ -72,23 +72,25 @@ def draw_grid(clicks, beat, actives):
                                                                         # pygame grid stops at top left
     boxes = []  # this might be for individual tracks
     colors = [gray, white, gray]
-    hi_hat_text = label_font.render('Hi Hat', True, white, )
-                # second term above is an anti-alias (smooth borders for lines)
+    hi_hat_text = label_font.render('Hi Hat', True, colors[actives[0]]) # if it's in 'actives,' each track will be a particular color. If not, it will be 'off' with one particular color.
+                                                                        # second term above is an anti-alias (smooth borders for lines)
+                                                                        # don't know why he distinguishes 'actives' and 'active_list'
+                                                                        # it goes through the index of each instrument (0-5) to change the color.
     screen.blit(hi_hat_text, (30, 30))  # draws it on the screen, with the coordinates.
     
-    snare_text = label_font.render('Snare', True, white, )
+    snare_text = label_font.render('Snare', True, colors[actives[1]])
     screen.blit(snare_text, (30, 130))
     
-    bass_drum_text = label_font.render('Bass Drum', True, white, )
+    bass_drum_text = label_font.render('Bass Drum', True, colors[actives[2]])
     screen.blit(bass_drum_text, (30, 230))
     
-    crash_text = label_font.render('Crash', True, white, )
+    crash_text = label_font.render('Crash', True, colors[actives[3]])
     screen.blit(crash_text, (30, 330))
 
-    clap_text = label_font.render('Clap', True, white, )
+    clap_text = label_font.render('Clap', True, colors[actives[4]])
     screen.blit(clap_text, (30, 430))
 
-    floor_tom_text = label_font.render('Floor Tom', True, white, )
+    floor_tom_text = label_font.render('Floor Tom', True, colors[actives[5]])
     screen.blit(floor_tom_text, (30, 530))
 
     # to draw lines between items:
@@ -191,6 +193,7 @@ while run:
                     clicked[coords[1]][coords[0]] *= -1
                     # when clicked, it will multiply the existing -1 by itself, resulting in a positive 1.
                     # we can use that resulting list to draw the active cells on the screen.
+        
         if event.type == pygame.MOUSEBUTTONUP: 
             if play_pause.collidepoint(event.pos): # if you press the button and it's plyaing, you then need playing to turn False (turn off)
                 if playing: 
