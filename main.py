@@ -30,6 +30,7 @@ boxes = []
 clicked = [[-1 for _ in range(beats)] for _ in range(instruments)]  # iterating over the beats to create a full list of negative 1s, to record what has already been clicked
                                         # in this case, you don't need to name a variable upfront (what the ...)
                                         # hard to follow his reasoning on this set of steps ... 
+active_list = [1 for _ in range(instruments)] # somehow, this makes the the default channels on, but any can be turned off by clicking
 bpm = 240
 playing = True
 active_length = 0  # not understanding this one at the moment ...
@@ -63,7 +64,7 @@ def play_notes():
                 tom.play()
 
 
-def draw_grid(clicks, beat):
+def draw_grid(clicks, beat, actives):
     left_box = pygame.draw.rect(screen, gray, [0, 0, 210, HEIGHT - 200], 5)   # x and y starting coordinates, width, and height
                                                                         # "5" clarifies how wide we want the edges to be.
     bottom_box = pygame.draw.rect(screen, gray, [0, HEIGHT - 200, WIDTH, 200], 3)
@@ -125,7 +126,7 @@ run = True
 while run:
     timer.tick(fps) # this means we execute the code 60 times per second
     screen.fill(black) # the background
-    boxes = draw_grid(clicked, active_beat)  # this is how we make 'boxes' available. Passing in 'clicked' helps us see what has been done before.
+    boxes = draw_grid(clicked, active_beat, active_list)  # this is how we make 'boxes' available. Passing in 'clicked' helps us see what has been done before.
     # lower menu buttons
     play_pause = pygame.draw.rect(screen, gray, [50, HEIGHT - 150, 200, 100], 0, 5)
     play_text = label_font.render("Play/Pause", True, white)
@@ -212,8 +213,8 @@ while run:
             # to check if any of those instrument buttons have been clicked:
             for i in range(len(instrument_rects)): # this will check every instrument rectangle that we define
                 if instrument_rects[i].collidepoint(event.pos): # ... to check if any instrument in there was clicked
-                    active_list = []
-
+                    active_list[i] *= -1    # whatever was just clicked on the active list at "i"
+                                            # not sure about -1 here ...
 
     beat_length = 3600//bpm  # this while loop will run 3600 per minute (!!) 3600 is actually fps * 60. 
 
