@@ -49,7 +49,7 @@ pygame.mixer.set_num_channels(instruments * 3)  # apparently, this helps with so
                                                 # this increases the number of channels
 def play_notes():
     for i in range(len(clicked)):
-        if clicked[i][active_beat] == 1:  # you'll check where the active beat is at each row [i], but what he mans by '1' is unclear.
+        if clicked[i][active_beat] == 1 and active_list[i] == 1:  # you'll check where the active beat is at each row [i], but what he mans by '1' is unclear.
             if i == 0:
                 hi_hat.play()
             if i == 1:
@@ -62,7 +62,7 @@ def play_notes():
                 clap.play()
             if i == 5:
                 tom.play()
-
+        # you don't even need an else statement. If either condition fails, then that instrument simply won't play.
 
 def draw_grid(clicks, beat, actives):
     left_box = pygame.draw.rect(screen, gray, [0, 0, 210, HEIGHT - 200], 5)   # x and y starting coordinates, width, and height
@@ -72,7 +72,7 @@ def draw_grid(clicks, beat, actives):
                                                                         # pygame grid stops at top left
     boxes = []  # this might be for individual tracks
     colors = [gray, white, gray]
-    hi_hat_text = label_font.render('Hi Hat', True, colors[actives[0]]) # if it's in 'actives,' each track will be a particular color. If not, it will be 'off' with one particular color.
+    hi_hat_text = label_font.render('Hi Hat', True, colors[actives[0]]) # if it's in 'actives,' each track will be white (a 1 in the list); if inactive, it will be gray (a -1 in the 'colors' list).
                                                                         # second term above is an anti-alias (smooth borders for lines)
                                                                         # don't know why he distinguishes 'actives' and 'active_list'
                                                                         # it goes through the index of each instrument (0-5) to change the color.
@@ -106,7 +106,10 @@ def draw_grid(clicks, beat, actives):
             if clicks[j][i] == -1:
                 color = gray
             else:
-                color = green  # meaning, it's active (hopefully explained later).
+                if actives[j] == 1:   # it's 'j' because we're checking the instrument (see the code directly above)
+                    color = green  # meaning, it's active (hopefully explained later).
+                elif actives[j] == -1:  # you could just do 'else' here instead.
+                    color = dark_gray
 
             rect = pygame.draw.rect(screen, color, [i * ((WIDTH - 200)// beats) + 205, (j * 100) + 5, ((WIDTH - 200)//beats) - 10, ((HEIGHT - 200)//instruments) - 10], 0, 5)  # '+ 205' is its staritng point
                                                     # it's 'i' because it's populating one column at a time and will shift over one whole step. Unclear why it's 200, though.
