@@ -175,11 +175,17 @@ while run:
                                                 # this one only needs (1.)  x and y starting position (for 'y', it goes down 100 at a time and always stays on the left) and (2.) the button size
         instrument_rects.append(rect)  # basically, we're sticking that new rectangle to the end of the instument_rects list
         
+    # save and load functionality
+    save_button = pygame.draw.rect(screen, gray, [900, HEIGHT - 150, 218, 48], 0, 5)
+    save_text = label_font.render('Save Beat', True, white)
+    screen.blit(save_text, (928, HEIGHT - 140))
+    load_button = pygame.draw.rect(screen, gray, [900, HEIGHT - 100, 218, 48], 0, 5)
+    load_text = label_font.render('Load Beat', True, white)
+    screen.blit(load_text, (928, HEIGHT - 90))
 
     if beat_changed:  # this runs only when the beat changes. 
         play_notes()
         beat_changed == False  # as soon as it starts to play, we change it to False
-
 
     # "event handling":
     for event in pygame.event.get():
