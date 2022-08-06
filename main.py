@@ -36,7 +36,12 @@ playing = True
 active_length = 0  # not understanding this one at the moment ...
 active_beat = 0
 beat_changed = True # still not clear on this one. You would want this to be active as soon as the app loads.
-
+save_menu = False  # this will be False at the beginning
+load_menu = False  # also False at the beginning
+saved_beats = [] # takes on the beats you have saved
+file = open("saved_beats.txt", 'r')  # storage for the beats; it will start out as 'read'. Seems like there's no DB involved.
+for line in file:  # each line in the file will be all the info needed for one beat.
+    saved_beats.append(line)
 
 # load in sounds (will make .WAV files later)
 hi_hat = mixer.Sound('hi_hat.WAV')
