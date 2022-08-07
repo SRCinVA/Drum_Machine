@@ -205,7 +205,7 @@ while run:
         if event.type == pygame.QUIT: # this obviously shuts down the app.
             run = False
 
-        if event.type == pygame.MOUSEBUTTONDOWN:  # don't understand this one.
+        if event.type == pygame.MOUSEBUTTONDOWN and not save_menu and not load_menu:  # don't understand excluding save and load here ...
             for i in range(len(boxes)):  # every time we update the beats, the whole thing has to be scalable and thus checkable.
                 if boxes[i][0].collidepoint(event.pos):  # the '0' referecnes the rectangle we stored in the box, where I represents the tuple.
                     coords = boxes[i][1]
@@ -216,7 +216,7 @@ while run:
                     # when clicked, it will multiply the existing -1 by itself, resulting in a positive 1.
                     # we can use that resulting list to draw the active cells on the screen.
         
-        if event.type == pygame.MOUSEBUTTONUP: 
+        if event.type == pygame.MOUSEBUTTONUP and not save_menu and not load_menu: # same as above ... 
             if play_pause.collidepoint(event.pos): # if you press the button and it's plyaing, you then need playing to turn False (turn off)
                 if playing: 
                     playing = False  # turns it off
@@ -238,12 +238,18 @@ while run:
             # to clear the board
             elif clear_button.collidepoint(event.pos):  # this resets everything back to what it was at the beginning--empty.
                 clicked = [[-1 for _ in range(beats)] for _ in range(instruments)]
-            
+            elif save_button.collidepoint(event.pos):
+                save_menu = True
+            elif load_button.collidepoint(event.pos):
+                load_menu = True
             # to check if any of those instrument buttons have been clicked:
             for i in range(len(instrument_rects)): # this will check every instrument rectangle that we define
                 if instrument_rects[i].collidepoint(event.pos): # ... to check if any instrument in there was clicked
                     active_list[i] *= -1    # whatever was just clicked on the active list at "i"
                                             # not sure about -1 here ...
+        elif event.type == pygame.MOUSEBUTTONUP: # same as above ... 
+            if exit_button.collidepoint(event.pos) == True:
+                pass
 
     beat_length = 3600//bpm  # this while loop will run 3600 per minute (!!) 3600 is actually fps * 60. 
 
