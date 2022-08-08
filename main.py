@@ -131,12 +131,25 @@ def draw_grid(clicks, beat, actives):
 
     return boxes # ... here's where we actually make that return (mentioned above).
 
+def draw_save_menu():
+    return exit_button
+
+def draw_load_menu():
+    return exit_button
+
 # the main game loop
 run = True
 while run:
     timer.tick(fps) # this means we execute the code 60 times per second
     screen.fill(black) # the background
+    # save menu
+    if save_menu:
+        exit_button = draw_save_menu()  # no idea what exit button has to do with it
+    if load_menu:
+        exit_button = draw_load_menu()
+
     boxes = draw_grid(clicked, active_beat, active_list)  # this is how we make 'boxes' available. Passing in 'clicked' helps us see what has been done before.
+    
     # lower menu buttons
     play_pause = pygame.draw.rect(screen, gray, [50, HEIGHT - 150, 200, 100], 0, 5)
     play_text = label_font.render("Play/Pause", True, white)
@@ -248,8 +261,10 @@ while run:
                     active_list[i] *= -1    # whatever was just clicked on the active list at "i"
                                             # not sure about -1 here ...
         elif event.type == pygame.MOUSEBUTTONUP: # same as above ... 
-            if exit_button.collidepoint(event.pos) == True:
-                pass
+            if exit_button.collidepoint(event.pos) == True:  # this lets us both enter and exit a menu
+                save_menu = False
+                load_menu = False
+                playing = True  # he says to do this so that it won't pause (?)
 
     beat_length = 3600//bpm  # this while loop will run 3600 per minute (!!) 3600 is actually fps * 60. 
 
