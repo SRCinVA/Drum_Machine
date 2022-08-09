@@ -132,10 +132,18 @@ def draw_grid(clicks, beat, actives):
     return boxes # ... here's where we actually make that return (mentioned above).
 
 def draw_save_menu():
-    return exit_button
+    pygame.draw.rect(screen, black )   # looks like it iwll be some kind of secondary screen ... ?
+    exit_btn = pygame.draw.rect(screen, gray, [WIDTH - 200, HEIGHT - 100, 180, 90], 0, 5)
+    exit_text = label_font.render("Close", True, white)
+    screen.blit(exit_text, (WIDTH - 160, HEIGHT - 70))
+    return exit_btn
 
 def draw_load_menu():
-    return exit_button
+    exit_btn = pygame.draw.rect(screen, gray, [WIDTH - 200, HEIGHT - 100, 180, 90], 0, 5)
+    exit_text = label_font.render("Close", True, white)
+    screen.blit(exit_text, (WIDTH - 160, HEIGHT - 70))
+    return exit_btn
+
 
 # the main game loop
 run = True
@@ -145,8 +153,8 @@ while run:
     # save menu
     if save_menu:
         exit_button = draw_save_menu()  # no idea what exit button has to do with it
-    if load_menu:
-        exit_button = draw_load_menu()
+    #if load_menu:
+    #  exit_button = draw_load_menu()
 
     boxes = draw_grid(clicked, active_beat, active_list)  # this is how we make 'boxes' available. Passing in 'clicked' helps us see what has been done before.
     
