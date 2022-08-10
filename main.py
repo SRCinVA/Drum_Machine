@@ -39,9 +39,9 @@ beat_changed = True # still not clear on this one. You would want this to be act
 save_menu = False  # this will be False at the beginning
 load_menu = False  # also False at the beginning
 saved_beats = [] # takes on the beats you have saved
-file = open("saved_beats.txt", 'r')  # storage for the beats; it will start out as 'read'. Seems like there's no DB involved.
-for line in file:  # each line in the file will be all the info needed for one beat.
-    saved_beats.append(line)
+# file = open("saved_beats.txt", 'r')  # storage for the beats; it will start out as 'read'. Seems like there's no DB involved.
+# for line in file:  # each line in the file will be all the info needed for one beat.
+#    saved_beats.append(line)
 
 # load in sounds (will make .WAV files later)
 hi_hat = mixer.Sound('hi_hat.WAV')
@@ -132,13 +132,19 @@ def draw_grid(clicks, beat, actives):
     return boxes # ... here's where we actually make that return (mentioned above).
 
 def draw_save_menu():
-    pygame.draw.rect(screen, black )   # looks like it iwll be some kind of secondary screen ... ?
+    pygame.draw.rect(screen, black, [0, 0, WIDTH, HEIGHT])   # it will be a full "secondary screen" with no rouding or edges.
+    menu_text = label_font.render('SAVE MENU: Enter a name for current beat', True, white)
+    saving_btn = pygame.draw.rect(screen, gray, [WIDTH // 2 - 200, HEIGHT * 0.75, 400, 100])
+    screen.blit(menu_text, (400, 40))
     exit_btn = pygame.draw.rect(screen, gray, [WIDTH - 200, HEIGHT - 100, 180, 90], 0, 5)
     exit_text = label_font.render("Close", True, white)
     screen.blit(exit_text, (WIDTH - 160, HEIGHT - 70))
     return exit_btn
 
+
+
 def draw_load_menu():
+    pygame.draw.rect(screen, black, [0, 0, WIDTH, HEIGHT])
     exit_btn = pygame.draw.rect(screen, gray, [WIDTH - 200, HEIGHT - 100, 180, 90], 0, 5)
     exit_text = label_font.render("Close", True, white)
     screen.blit(exit_text, (WIDTH - 160, HEIGHT - 70))
@@ -150,11 +156,11 @@ run = True
 while run:
     timer.tick(fps) # this means we execute the code 60 times per second
     screen.fill(black) # the background
-    # save menu
+    
     if save_menu:
         exit_button = draw_save_menu()  # no idea what exit button has to do with it
-    #if load_menu:
-    #  exit_button = draw_load_menu()
+    if load_menu:
+        exit_button = draw_load_menu()
 
     boxes = draw_grid(clicked, active_beat, active_list)  # this is how we make 'boxes' available. Passing in 'clicked' helps us see what has been done before.
     
@@ -214,7 +220,11 @@ while run:
     clear_text = label_font.render('Clear Board', True, white)
     screen.blit(clear_text, (1228, HEIGHT - 120))
 
-
+    # save and load menus
+    if save_menu:
+        exit_button = draw_save_menu()  # no idea what exit button has to do with it
+    if load_menu:
+        exit_button = draw_load_menu()
 
 
     if beat_changed:  # this runs only when the beat changes. 
