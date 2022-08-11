@@ -42,6 +42,8 @@ saved_beats = [] # takes on the beats you have saved
 # file = open("saved_beats.txt", 'r')  # storage for the beats; it will start out as 'read'. Seems like there's no DB involved.
 # for line in file:  # each line in the file will be all the info needed for one beat.
 #    saved_beats.append(line)
+beat_name = ''
+typing = False
 
 # load in sounds (will make .WAV files later)
 hi_hat = mixer.Sound('hi_hat.WAV')
@@ -131,17 +133,17 @@ def draw_grid(clicks, beat, actives):
 
     return boxes # ... here's where we actually make that return (mentioned above).
 
-def draw_save_menu():
+def draw_save_menu(beat_name, typing):
     pygame.draw.rect(screen, black, [0, 0, WIDTH, HEIGHT])   # it will be a full "secondary screen" with no rouding or edges.
     menu_text = label_font.render('SAVE MENU: Enter a name for current beat', True, white)
-    saving_btn = pygame.draw.rect(screen, gray, [WIDTH // 2 - 200, HEIGHT * 0.75, 400, 100])
+    saving_btn = pygame.draw.rect(screen, gray, [WIDTH // 2 - 200, HEIGHT * 0.75, 400, 100], 0, 5)
+    saving_text = label_font.render('Save beat', True, white)
+    screen.blit(saving_text, (WIDTH // 2 - 75, HEIGHT * 0.75 + 30))
     screen.blit(menu_text, (400, 40))
     exit_btn = pygame.draw.rect(screen, gray, [WIDTH - 200, HEIGHT - 100, 180, 90], 0, 5)
     exit_text = label_font.render("Close", True, white)
     screen.blit(exit_text, (WIDTH - 160, HEIGHT - 70))
-    return exit_btn
-
-
+    return exit_btn, saving_btn # return the svaing button because we need to check if there is a collision outside the function. 
 
 def draw_load_menu():
     pygame.draw.rect(screen, black, [0, 0, WIDTH, HEIGHT])
@@ -158,7 +160,7 @@ while run:
     screen.fill(black) # the background
     
     if save_menu:
-        exit_button = draw_save_menu()  # no idea what exit button has to do with it
+        exit_button, saving_button = draw_save_menu(beat_name, typing)  # no idea what exit button has to do with it. Also have to pass a few things into save_menu().
     if load_menu:
         exit_button = draw_load_menu()
 
