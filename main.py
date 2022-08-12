@@ -143,7 +143,13 @@ def draw_save_menu(beat_name, typing):
     exit_btn = pygame.draw.rect(screen, gray, [WIDTH - 200, HEIGHT - 100, 180, 90], 0, 5)
     exit_text = label_font.render("Close", True, white)
     screen.blit(exit_text, (WIDTH - 160, HEIGHT - 70))
-    return exit_btn, saving_btn # return the svaing button because we need to check if there is a collision outside the function. 
+    entry_rect = pygame.draw.rect(screen, gray, [400, 200, 600, 200], 5, 5) # this will create a large empty rectangle (to entter information?)
+    entry_text = label_font.render(f'{beat_name}', True, white)
+    screen.blit(entry_text, (430, 250))
+    return exit_btn, saving_btn, entry_rect # return the saving button because we need to check if there is a collision outside the function. 
+                                            # also need to return entry_rect to see if we've typed into it or not
+    
+
 
 def draw_load_menu():
     pygame.draw.rect(screen, black, [0, 0, WIDTH, HEIGHT])
@@ -160,7 +166,7 @@ while run:
     screen.fill(black) # the background
     
     if save_menu:
-        exit_button, saving_button = draw_save_menu(beat_name, typing)  # no idea what exit button has to do with it. Also have to pass a few things into save_menu().
+        exit_button, saving_button, entry_rectangle = draw_save_menu(beat_name, typing)  # no idea what exit button has to do with it. Also have to pass a few things into save_menu().
     if load_menu:
         exit_button = draw_load_menu()
 
@@ -224,7 +230,7 @@ while run:
 
     # save and load menus
     if save_menu:
-        exit_button = draw_save_menu()  # no idea what exit button has to do with it
+        exit_button = draw_save_menu(beat_name, typing)  # no idea what exit button has to do with it
     if load_menu:
         exit_button = draw_load_menu()
 
