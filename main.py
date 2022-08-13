@@ -291,6 +291,19 @@ while run:
                 save_menu = False
                 load_menu = False
                 playing = True  # he says to do this so that it won't pause (?)
+                beat_name = '' # reset beat name to an empty string
+                typing = False # if you're closing it down, then you're clearly not typing.
+            if entry_rectangle.collidepoint(event.pos):  # not sure why, but if you click on the entry rectangle, then we want to switch the state of your typing to its opposite
+                if typing:
+                    typing = False
+                elif not typing: # 'else' would not be effective here
+                    typing = True
+        if event.type == pygame.TEXTINPUT and typing:  # this may cover the action of how you actually enter text into that field.
+            beat_name = event.text  # this turns what you enter into that field into the beat's name.
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame. K_BACKSPACE and len(beat_name) > 0 and typing:  # to check if the backspace key was pressed and to confirm that there actually is a beatname
+                beat_name = beat_name[:-1] # this will grab the entire string right up to the most recent character, enabling us to rename the beat.
+        # with the four lines above, we the entry rectangle can determine if we are typing of not.
 
     beat_length = 3600//bpm  # this while loop will run 3600 per minute (!!) 3600 is actually fps * 60. 
 
