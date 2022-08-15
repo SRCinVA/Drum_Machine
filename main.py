@@ -154,6 +154,7 @@ def draw_save_menu(beat_name, typing):
 def draw_load_menu():
     pygame.draw.rect(screen, black, [0, 0, WIDTH, HEIGHT])
     exit_btn = pygame.draw.rect(screen, gray, [WIDTH - 200, HEIGHT - 100, 180, 90], 0, 5)
+    # exit_button = rect.Rect(screen, gray, [WIDTH - 200, HEIGHT - 100, 180, 90], 0, 5)  
     exit_text = label_font.render("Close", True, white)
     screen.blit(exit_text, (WIDTH - 160, HEIGHT - 70))
     return exit_btn
@@ -230,7 +231,7 @@ while run:
 
     # save and load menus
     if save_menu:
-        exit_button = draw_save_menu(beat_name, typing)  # no idea what exit button has to do with it
+        exit_button, saving_button, entry_rectangle = draw_save_menu(beat_name, typing)  # no idea what exit button has to do with it
     if load_menu:
         exit_button = draw_load_menu()
 
@@ -287,7 +288,7 @@ while run:
                     active_list[i] *= -1    # whatever was just clicked on the active list at "i"
                                             # not sure about -1 here ...
         elif event.type == pygame.MOUSEBUTTONUP: # same as above ... 
-            if exit_button.collidepoint(event.pos) == True:  # this lets us both enter and exit a menu
+            if exit_button.collidepoint(event.pos):  # this lets us both enter and exit a menu
                 save_menu = False
                 load_menu = False
                 playing = True  # he says to do this so that it won't pause (?)
@@ -299,7 +300,7 @@ while run:
                 elif not typing: # 'else' would not be effective here
                     typing = True
         if event.type == pygame.TEXTINPUT and typing:  # this may cover the action of how you actually enter text into that field.
-            beat_name = event.text  # this turns what you enter into that field into the beat's name.
+            beat_name += event.text  # this turns what you enter into that field into the beat's name.
         if event.type == pygame.KEYDOWN:
             if event.key == pygame. K_BACKSPACE and len(beat_name) > 0 and typing:  # to check if the backspace key was pressed and to confirm that there actually is a beatname
                 beat_name = beat_name[:-1] # this will grab the entire string right up to the most recent character, enabling us to rename the beat.
