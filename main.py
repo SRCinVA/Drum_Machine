@@ -143,14 +143,14 @@ def draw_save_menu(beat_name, typing):
     exit_btn = pygame.draw.rect(screen, gray, [WIDTH - 200, HEIGHT - 100, 180, 90], 0, 5)
     exit_text = label_font.render("Close", True, white)
     screen.blit(exit_text, (WIDTH - 160, HEIGHT - 70))
+    if typing:
+        pygame.draw.rect(screen, dark_gray, [400, 200, 600, 200], 0, 5) # this turns the black field to a dark gray as soon as you start typing
     entry_rect = pygame.draw.rect(screen, gray, [400, 200, 600, 200], 5, 5) # this will create a large empty rectangle (to entter information?)
     entry_text = label_font.render(f'{beat_name}', True, white)
     screen.blit(entry_text, (430, 250))
     return exit_btn, saving_btn, entry_rect # return the saving button because we need to check if there is a collision outside the function. 
                                             # also need to return entry_rect to see if we've typed into it or not
     
-
-
 def draw_load_menu():
     pygame.draw.rect(screen, black, [0, 0, WIDTH, HEIGHT])
     exit_btn = pygame.draw.rect(screen, gray, [WIDTH - 200, HEIGHT - 100, 180, 90], 0, 5)
@@ -262,6 +262,7 @@ while run:
                     playing = False  # turns it off
                 elif not playing:
                     playing = True   # turns it on
+            
             # to change BPM
             elif bpm_add_rect.collidepoint(event.pos):
                 bpm += 1
@@ -294,17 +295,23 @@ while run:
                 playing = True  # he says to do this so that it won't pause (?)
                 beat_name = '' # reset beat name to an empty string
                 typing = False # if you're closing it down, then you're clearly not typing.
-            if entry_rectangle.collidepoint(event.pos):  # not sure why, but if you click on the entry rectangle, then we want to switch the state of your typing to its opposite
+            
+            elif entry_rectangle.collidepoint(event.pos):  # not sure why, but if you click on the entry rectangle, then we want to switch the state of your typing to its opposite
                 if typing:
                     typing = False
                 elif not typing: # 'else' would not be effective here
                     typing = True
+        
+            elif saving_button.collidepoint(event.pos):
+                file = open('saved_file.txt', 'w')
+
+                
         if event.type == pygame.TEXTINPUT and typing:  # this may cover the action of how you actually enter text into that field.
-            beat_name += event.text  # this turns what you enter into that field into the beat's name.
+            beat_name += event.text  # this turns what you enter into that field into the beat's name. Without the '+=', the field can't be added to. 
         if event.type == pygame.KEYDOWN:
-            if event.key == pygame. K_BACKSPACE and len(beat_name) > 0 and typing:  # to check if the backspace key was pressed and to confirm that there actually is a beatname
+            if event.key == pygame. K_BACKSPACE and len(beat_name) > 0 and typing:  # to check if the backspace key was pressed and to confirm that there actually is a beatname (possibly)
                 beat_name = beat_name[:-1] # this will grab the entire string right up to the most recent character, enabling us to rename the beat.
-        # with the four lines above, we the entry rectangle can determine if we are typing of not.
+        # with the five lines above, the entry rectangle can determine if we are actively typing or not.
 
     beat_length = 3600//bpm  # this while loop will run 3600 per minute (!!) 3600 is actually fps * 60. 
 
