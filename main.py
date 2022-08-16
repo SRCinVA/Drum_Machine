@@ -304,8 +304,15 @@ while run:
         
             elif saving_button.collidepoint(event.pos):
                 file = open('saved_file.txt', 'w')
+                saved_beats.append(f'\nname: {beat_name}, beats: {beats}, bpm: {bpm}, selected: {clicked}')  # start it with a new line
+                                                                                        # notice that this is writing down each of the characteristics of the beat
+                for i in range(len(saved_beats)): # appending each piece of the above info to the existing saves_beats list
+                    file.write(str(saved_beats[i]))
+                file.close() # saves it outside the file
+                save_menu = False # takes you out of save_menu, and sets everything back to default (doesn't really explain this)
+                typing = False
+                beat_name = ''
 
-                
         if event.type == pygame.TEXTINPUT and typing:  # this may cover the action of how you actually enter text into that field.
             beat_name += event.text  # this turns what you enter into that field into the beat's name. Without the '+=', the field can't be added to. 
         if event.type == pygame.KEYDOWN:
