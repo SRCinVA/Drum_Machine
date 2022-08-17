@@ -153,12 +153,18 @@ def draw_save_menu(beat_name, typing):
     
 def draw_load_menu():
     pygame.draw.rect(screen, black, [0, 0, WIDTH, HEIGHT])
+    menu_text = label_font.render('Load MENU: Select a beat to load', True, white) # notice that the next 5 lines were poached from the save menu.
+    loading_btn = pygame.draw.rect(screen, gray, [WIDTH // 2 - 200, HEIGHT * 0.75, 400, 100], 0, 5)
+    loading_text = label_font.render('Load beat', True, white)
+    screen.blit(loading_text, (WIDTH // 2 - 75, HEIGHT * 0.75 + 30))
+    delete_btn = pygame.draw.rect(screen, gray, [(WIDTH//2) - 500, HEIGHT * .75, 200, 100], 0, 5)
+
+    screen.blit(menu_text, (400, 40))
     exit_btn = pygame.draw.rect(screen, gray, [WIDTH - 200, HEIGHT - 100, 180, 90], 0, 5)
     # exit_button = rect.Rect(screen, gray, [WIDTH - 200, HEIGHT - 100, 180, 90], 0, 5)  
     exit_text = label_font.render("Close", True, white)
     screen.blit(exit_text, (WIDTH - 160, HEIGHT - 70))
-    return exit_btn
-
+    return exit_btn, loading_btn, delete_btn
 
 # the main game loop
 run = True
