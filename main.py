@@ -165,8 +165,13 @@ def draw_load_menu():
     # exit_button = rect.Rect(screen, gray, [WIDTH - 200, HEIGHT - 100, 180, 90], 0, 5)  
     exit_text = label_font.render("Close", True, white)
     screen.blit(exit_text, (WIDTH - 160, HEIGHT - 70))
-    pygame.draw.rect(screen, gray, [190, 90, 1000, 600], 5, 5)
-    return exit_btn, loading_btn, delete_btn
+    loaded_rectangle = pygame.draw.rect(screen, gray, [190, 90, 1000, 600], 5, 5)
+    for beat in range(len(saved_beats)): # to recover a saved beat:
+        if beat < 10:
+            beat_clicked = []
+            row_text = medium_font.render(f'{beats + 1}', True, white)
+            screen.blit(row_text, (200, 100 + beat * 50))
+    return exit_btn, loading_btn, delete_btn, loaded_rectangle
 
 # the main game loop
 run = True
@@ -241,7 +246,7 @@ while run:
     if save_menu:
         exit_button, saving_button, entry_rectangle = draw_save_menu(beat_name, typing)  # no idea what exit button has to do with it
     if load_menu:
-        exit_button, loading_button, delete_button = draw_load_menu()
+        exit_button, loading_button, delete_button, loaded_rectanglee = draw_load_menu()
 
 
     if beat_changed:  # this runs only when the beat changes. 
@@ -291,6 +296,7 @@ while run:
                 save_menu = True
             elif load_button.collidepoint(event.pos):
                 load_menu = True
+            
             # to check if any of those instrument buttons have been clicked:
             for i in range(len(instrument_rects)): # this will check every instrument rectangle that we define
                 if instrument_rects[i].collidepoint(event.pos): # ... to check if any instrument in there was clicked
