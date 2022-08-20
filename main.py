@@ -166,11 +166,14 @@ def draw_load_menu():
     exit_text = label_font.render("Close", True, white)
     screen.blit(exit_text, (WIDTH - 160, HEIGHT - 70))
     loaded_rectangle = pygame.draw.rect(screen, gray, [190, 90, 1000, 600], 5, 5)
-    for beat in range(len(saved_beats)): # to recover a saved beat:
+    for beat in range(len(saved_beats)): # to recover a saved beat, you have to index through the string (seems bizarrely inefficient to do it this way ...)
         if beat < 10:
             beat_clicked = []
             row_text = medium_font.render(f'{beats + 1}', True, white)
             screen.blit(row_text, (200, 100 + beat * 50))
+            name_index_start = saved_beats[beat].index('name: ') + 6 # this line and the next are what you need to pull out of the data in the text file.
+            name_index_end = saved_beats[beat].index(',  beats:')
+            name_text = medium_font.render(saved_beats[beat][name_index_start: name_index_end]) # first go the beat (first index) then pull out the indexed characters from that string.
     return exit_btn, loading_btn, delete_btn, loaded_rectangle
 
 # the main game loop
