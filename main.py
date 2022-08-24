@@ -145,10 +145,10 @@ def draw_save_menu(beat_name, typing):
     screen.blit(exit_text, (WIDTH - 160, HEIGHT - 70))
     if typing:
         pygame.draw.rect(screen, dark_gray, [400, 200, 600, 200], 0, 5) # this turns the black field to a dark gray as soon as you start typing
-    entry_rect = pygame.draw.rect(screen, gray, [400, 200, 600, 200], 5, 5) # this will create a large empty rectangle (to entter information?)
+    entry_rectangle = pygame.draw.rect(screen, gray, [400, 200, 600, 200], 5, 5) # this will create a large empty rectangle (to entter information?)
     entry_text = label_font.render(f'{beat_name}', True, white)
     screen.blit(entry_text, (430, 250))
-    return exit_btn, saving_btn, entry_rect # return the saving button because we need to check if there is a collision outside the function. 
+    return exit_btn, saving_btn, entry_rectangle # return the saving button because we need to check if there is a collision outside the function. 
                                             # also need to return entry_rect to see if we've typed into it or not
     
 def draw_load_menu():
@@ -173,7 +173,11 @@ def draw_load_menu():
             screen.blit(row_text, (200, 100 + beat * 50))
             name_index_start = saved_beats[beat].index('name: ') + 6 # this line and the next are what you need to pull out of the data in the text file.
             name_index_end = saved_beats[beat].index(',  beats:')
-            name_text = medium_font.render(saved_beats[beat][name_index_start: name_index_end]) # first go the beat (first index) then pull out the indexed characters from that string.
+            name_text = medium_font.render(saved_beats[beat][name_index_start:name_index_end], True, white) # first go the beat (first index) then pull out the indexed characters from that string. Put those strings together, and they will add up to the name of the saved beat.
+            screen.blit(name_text, (240, 100 + beat * 50))  # puzzled by what these multplications mean ... 
+        if 0 <= index < len(saved_beats) and beat == index: # beats failed to load, but this is how you would select them.
+            beat_index_end = saved_beats[beat].index(', bpm:')
+            loaded_beats = int(saved_beats[beat][name_index_end + 8: beat_index_end])
     return exit_btn, loading_btn, delete_btn, loaded_rectangle
 
 # the main game loop
@@ -249,7 +253,7 @@ while run:
     if save_menu:
         exit_button, saving_button, entry_rectangle = draw_save_menu(beat_name, typing)  # no idea what exit button has to do with it
     if load_menu:
-        exit_button, loading_button, delete_button, loaded_rectanglee = draw_load_menu()
+        exit_button, loading_button, delete_button, loaded_rectangle = draw_load_menu()
 
 
     if beat_changed:  # this runs only when the beat changes. 
