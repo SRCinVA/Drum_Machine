@@ -178,6 +178,9 @@ def draw_load_menu():
         if 0 <= index < len(saved_beats) and beat == index: # beats failed to load, but this is how you would select them.
             beat_index_end = saved_beats[beat].index(', bpm:')
             loaded_beats = int(saved_beats[beat][name_index_end + 8: beat_index_end])
+            bpm_index_end = saved_beats[beat].index(', selected:')
+            loaded_bpm = int(saved_beats[beat][name_index_end + 6: beat_index_end])
+            loaded_clicks_string = saved_beats[beat[bpm_index_end + 14: -3]] # here, we need to "split the strings out" and take away a space and 2 brackets
     return exit_btn, loading_btn, delete_btn, loaded_rectangle
 
 # the main game loop
