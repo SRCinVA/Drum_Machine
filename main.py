@@ -181,6 +181,10 @@ def draw_load_menu():
             bpm_index_end = saved_beats[beat].index(', selected:')
             loaded_bpm = int(saved_beats[beat][name_index_end + 6: beat_index_end])
             loaded_clicks_string = saved_beats[beat[bpm_index_end + 14: -3]] # here, we need to "split the strings out" and take away a space and 2 brackets
+            loaded_clicks_rows = list(loaded_clicks_string.split('], [')) # we need to split this into a string and then that string further, based on the brackets.
+            for row in range(len(loaded_clicks_rows)):
+                loaded_clicks_row = (loaded_clicks_rows[row])
+                
     return exit_btn, loading_btn, delete_btn, loaded_rectangle
 
 # the main game loop
