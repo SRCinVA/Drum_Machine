@@ -42,8 +42,8 @@ save_menu = False  # this will be False at the beginning
 load_menu = False  # also False at the beginning
 saved_beats = [] # takes on the beats you have saved
 file = open("saved_file.txt", 'r')  # storage for the beats; it will start out as 'read'. Seems like there's no DB involved.
-# for line in file:  # each line in the file will be all the info needed for one beat.
-#     saved_beats.append(line)
+for line in file:  # each line in the file will be all the info needed for one beat.
+    saved_beats.append(line)
 beat_name = ''
 typing = False
 
@@ -338,6 +338,16 @@ while run:
                 typing = False # if you're closing it down, then you're clearly not typing.
             elif loaded_rectangle:
                 index = (event.pos[1] - 100) //50
+            elif delete_button.collidepoint(event.pos):
+                if 0 <= index < len (saved_beats):
+                    saved_beats.pop(index) # all you have to do here is pop that beat at index i off. Fairly easy
+            elif loading_button.collidepoint(event.pos):
+                if 0 <= index < len(saved_beats):
+                    beats = loaded_info[0]
+                    bpm = loaded_info[1]
+                    clicked = loaded_info[2]
+                    index = 100
+                    load_menu = False
             elif entry_rectangle.collidepoint(event.pos):  # not sure why, but if you click on the entry rectangle, then we want to switch the state of your typing to its opposite
                 if typing:
                     typing = False
