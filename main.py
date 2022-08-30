@@ -13,6 +13,7 @@ black = (0, 0, 0)
 white = (255, 255, 255)
 gray = (128, 128, 128)
 dark_gray = (50, 50, 50)
+light_gray = (170, 170, 170)
 green = (0, 255, 0)
 gold = (212, 175, 55)
 blue = (0, 255, 255)
@@ -40,9 +41,9 @@ beat_changed = True # still not clear on this one. You would want this to be act
 save_menu = False  # this will be False at the beginning
 load_menu = False  # also False at the beginning
 saved_beats = [] # takes on the beats you have saved
-# file = open("saved_beats.txt", 'r')  # storage for the beats; it will start out as 'read'. Seems like there's no DB involved.
+file = open("saved_file.txt", 'r')  # storage for the beats; it will start out as 'read'. Seems like there's no DB involved.
 # for line in file:  # each line in the file will be all the info needed for one beat.
-#    saved_beats.append(line)
+#     saved_beats.append(line)
 beat_name = ''
 typing = False
 
@@ -272,7 +273,7 @@ while run:
     if save_menu:
         exit_button, saving_button, entry_rectangle = draw_save_menu(beat_name, typing)  # no idea what exit button has to do with it
     if load_menu:
-        exit_button, loading_button, delete_button, loaded_rectangle = draw_load_menu(index)
+        exit_button, loading_button, delete_button, loaded_rectangle, loaded_info = draw_load_menu(index)
 
 
     if beat_changed:  # this runs only when the beat changes. 
