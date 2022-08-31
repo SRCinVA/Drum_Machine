@@ -1,7 +1,6 @@
 from cProfile import label
 import pygame
 from pygame import mixer
-
 pygame.init()
 
 # think of this as your variable library
@@ -178,7 +177,7 @@ def draw_load_menu(index):
             beat_clicked = []
             row_text = medium_font.render(f'{beats + 1}', True, white)
             screen.blit(row_text, (200, 100 + beat * 50))
-            name_index_start = saved_beats[beat].index('name: ') + 6 # this line and the next are what you need to pull out of the data in the text file.
+            name_index_start = saved_beats[beat].index('name:') + 6 # this line and the next are what you need to pull out of the data in the text file.
             name_index_end = saved_beats[beat].index(',  beats:')
             name_text = medium_font.render(saved_beats[beat][name_index_start:name_index_end], True, white) # first go the beat (first index) then pull out the indexed characters from that string. Put those strings together, and they will add up to the name of the saved beat.
             screen.blit(name_text, (240, 100 + beat * 50))  # puzzled by what these multplications mean ... 
@@ -336,34 +335,36 @@ while run:
                 playing = True  # he says to do this so that it won't pause (?)
                 beat_name = '' # reset beat name to an empty string
                 typing = False # if you're closing it down, then you're clearly not typing.
-            elif loaded_rectangle:
-                index = (event.pos[1] - 100) //50
-            elif delete_button.collidepoint(event.pos):
-                if 0 <= index < len (saved_beats):
-                    saved_beats.pop(index) # all you have to do here is pop that beat at index i off. Fairly easy
-            elif loading_button.collidepoint(event.pos):
-                if 0 <= index < len(saved_beats):
-                    beats = loaded_info[0]
-                    bpm = loaded_info[1]
-                    clicked = loaded_info[2]
-                    index = 100
-                    load_menu = False
-            elif entry_rectangle.collidepoint(event.pos):  # not sure why, but if you click on the entry rectangle, then we want to switch the state of your typing to its opposite
-                if typing:
+            if load_menu:
+                if loaded_rectangle.collidepoint(event.pos):
+                    index = (event.pos[1] - 100) //50
+                if delete_button.collidepoint(event.pos):
+                    if 0 <= index < len (saved_beats):
+                        saved_beats.pop(index) # all you have to do here is pop that beat at index i off. Fairly easy
+                if loading_button.collidepoint(event.pos):
+                    if 0 <= index < len(saved_beats):
+                        beats = loaded_info[0]
+                        bpm = loaded_info[1]
+                        clicked = loaded_info[2]
+                        index = 100
+                        load_menu = False
+            if save_menu:
+                if entry_rectangle.collidepoint(event.pos):  # not sure why, but if you click on the entry rectangle, then we want to switch the state of your typing to its opposite
+                    if typing:
+                        typing = False
+                    elif not typing: # 'else' would not be effective here
+                        typing = True
+            
+                if saving_button.collidepoint(event.pos):
+                    file = open('saved_file.txt', 'w')
+                    saved_beats.append(f'\nname: {beat_name}, beats: {beats}, bpm: {bpm}, selected: {clicked}')  # start it with a new line
+                                                                                            # notice that this is writing down each of the characteristics of the beat
+                    for i in range(len(saved_beats)): # appending each piece of the above info to the existing saves_beats list
+                        file.write(str(saved_beats[i]))
+                    file.close() # saves it outside the file
+                    save_menu = False # takes you out of save_menu, and sets everything back to default (doesn't really explain this)
                     typing = False
-                elif not typing: # 'else' would not be effective here
-                    typing = True
-        
-            elif saving_button.collidepoint(event.pos):
-                file = open('saved_file.txt', 'w')
-                saved_beats.append(f'\nname: {beat_name}, beats: {beats}, bpm: {bpm}, selected: {clicked}')  # start it with a new line
-                                                                                        # notice that this is writing down each of the characteristics of the beat
-                for i in range(len(saved_beats)): # appending each piece of the above info to the existing saves_beats list
-                    file.write(str(saved_beats[i]))
-                file.close() # saves it outside the file
-                save_menu = False # takes you out of save_menu, and sets everything back to default (doesn't really explain this)
-                typing = False
-                beat_name = ''
+                    beat_name = ''
 
         if event.type == pygame.TEXTINPUT and typing:  # this may cover the action of how you actually enter text into that field.
             beat_name += event.text  # this turns what you enter into that field into the beat's name. Without the '+=', the field can't be added to. 
